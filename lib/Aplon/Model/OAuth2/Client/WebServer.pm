@@ -52,7 +52,7 @@ sub start_authorize {
 sub callback {
     my $self = shift;
     my $args = shift || {};
-    my $code = $args->{code} or $self->abort_with({
+    my $code = $args->{code} or $self->abort_with('',{
         code => "OAUTH2_FAILED" ,
         missing => ['code'],
     });
@@ -60,11 +60,7 @@ sub callback {
     my $access_token = $client->get_access_token(
             code         => $code,
             redirect_uri => $self->redirect_uri,
-            ) or $self->abort_with({
-                    code => 'OAUTH2_FAILED',
-                    custom_invalid => ['get_access_token_faild' ],
-                    message => $client->errstr }
-                );
+            ) or $self->abort_with('get_access_token_faild',{ code => 'OAUTH2_FAILED' });
 
     return $self->do_complate( $access_token );
 }
