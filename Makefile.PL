@@ -9,9 +9,12 @@ requires (
 
 tests 't/*.t';
 
+configure_requires (
+  'Module::Install::TestBase'
+);
+
 build_requires (
   'Test::More',
-  'Module::Install::TestBase'
 );
 use_test_base;
 auto_include;
